@@ -1,6 +1,15 @@
+
+/**
+ * @author Rubens Anderson de Sousa Silva
+ */
 import java.util.Scanner;
 import servers.*;
 
+/**
+ * Classe que cria servidor de forma dinâmica com os IPs e Portas disponíveis.
+ * Para fins de ilustração, apenas um IP e Porta estão disponíveis para cada
+ * tipo de servidor
+ */
 public class CreateServer {
 
   private static String IPTCP = "127.0.0.1";

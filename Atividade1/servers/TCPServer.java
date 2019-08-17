@@ -3,8 +3,11 @@ package servers;
 import java.io.*;
 import java.net.*;
 
+/**
+ * Classe servidor com protocolo TCP
+ */
 public class TCPServer {
-  // private static final int PORT = 1234;
+
   private static ServerSocket TCPSocket;
 
   public TCPServer(String ip, int port) {
@@ -12,7 +15,6 @@ public class TCPServer {
     try {
       InetAddress address = InetAddress.getByName(ip);
       TCPSocket = new ServerSocket(port, 1, address);
-      // TCPSocket.bind(new InetSocketAddress(ip, port));
 
     } catch (SocketException sockEx) {
       System.out.println("unable to open ");
@@ -25,14 +27,14 @@ public class TCPServer {
 
   }
 
-  // public static void main(String[] args) {
-
-  // }
-
+  /**
+   * inicia o servidor com IP e Porta passados
+   */
   public void start() {
     try {
 
       int numMessages = 0;
+      long initialTime = System.currentTimeMillis();
 
       Socket cliente = TCPSocket.accept();
       ObjectOutputStream msgOutput = new ObjectOutputStream(cliente.getOutputStream());
@@ -54,7 +56,7 @@ public class TCPServer {
           System.out.println("> REQNUM: " + numMessages);
           messageOut = Integer.toString(numMessages);
         } else if (msgFromClient.intern() == "UPTIME") {
-          messageOut = "nudes";
+          messageOut = Long.toString((System.currentTimeMillis() - initialTime) / 1000);
         }
 
         msgOutput.writeObject(messageOut);

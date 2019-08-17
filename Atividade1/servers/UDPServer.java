@@ -3,6 +3,9 @@ package servers;
 import java.io.*;
 import java.net.*;
 
+/**
+ * Classe servidor protocolo UDP
+ */
 public class UDPServer {
   // private static final int PORT = 1234;
   private static DatagramSocket datagramSocket;
@@ -26,14 +29,17 @@ public class UDPServer {
 
   }
 
-  // public static void main(String[] args) {
-
-  // }
+  /**
+   * inicia o servidor no IP e Porta passados
+   */
 
   public void start() {
     try {
       String messageIn = "", messageOut = "";
+
       int numMessages = 0;
+      long initialTime = System.currentTimeMillis();
+
       InetAddress clientAddress = null;
       int clientPort = 0;
       do {
@@ -53,12 +59,10 @@ public class UDPServer {
 
         numMessages++;
 
-        
-
         if (messageIn == "REQNUM") {
           messageOut = Integer.toString(numMessages);
         } else if (messageIn == "UPTIME") {
-          messageOut = "nudes";
+          messageOut = Long.toString((System.currentTimeMillis() - initialTime) / 60);
 
         }
 

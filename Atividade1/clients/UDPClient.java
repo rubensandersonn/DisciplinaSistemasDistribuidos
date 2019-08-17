@@ -4,7 +4,9 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-
+/**
+ * Classe cliente TCP
+ */
 public class UDPClient {
   private static InetAddress host;
   private static int PORT = 1234;
@@ -22,6 +24,9 @@ public class UDPClient {
     }
   }
 
+  /**
+   * Classe a ser invocada para conectar ao servidor
+   */
   public void accessServer() {
     try {
       datagramSocket = new DatagramSocket();
@@ -31,19 +36,41 @@ public class UDPClient {
 
       do {
 
+        System.out.println("DIGITE O COMANDO :");
+        System.out.println("UPTIME : tempo online do servidor UDP (em segundos)");
+        System.out.println("REQNUM : numero de requisicoes que o servidor recebeu");
+        System.out.println("***CLOSE*** : Encerrar a conexao");
         System.out.println("enter message :");
+
         message = userEntry.nextLine();
 
         if (!message.equals("***CLOSE***")) {
-          outPacket = new DatagramPacket(message.getBytes(), message.length(), host, PORT);
 
-          datagramSocket.send(outPacket);
-          buffer = new byte[256];
-          inPacket = new DatagramPacket(buffer, buffer.length);
+          if (message.intern() == "REQNUM") {
+            outPacket = new DatagramPacket(message.getBytes(), message.length(), host, PORT);
 
-          datagramSocket.receive(inPacket);
-          response = new String(inPacket.getData(), 0, inPacket.getLength());
-          System.out.println(" \n SERVER-->>" + response);
+            datagramSocket.send(outPacket);
+            buffer = new byte[256];
+            inPacket = new DatagramPacket(buffer, buffer.length);
+
+            datagramSocket.receive(inPacket);
+            response = new String(inPacket.getData(), 0, inPacket.getLength());
+            System.out.println(" \n SERVER-->>" + response);
+
+          } else if (message.intern() == "UPTIME") {
+            outPacket = new DatagramPacket(message.getBytes(), message.length(), host, PORT);
+
+            datagramSocket.send(outPacket);
+            buffer = new byte[256];
+            inPacket = new DatagramPacket(buffer, buffer.length);
+
+            datagramSocket.receive(inPacket);
+            response = new String(inPacket.getData(), 0, inPacket.getLength());
+            System.out.println(" \n SERVER-->>" + response);
+          } else {
+            System.out.println("COMANDO INVALIDO");
+          }
+
         } else {
           userEntry.close();
         }
