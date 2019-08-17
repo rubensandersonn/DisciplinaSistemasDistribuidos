@@ -59,14 +59,12 @@ public class UDPServer {
 
         numMessages++;
 
-        if (messageIn == "REQNUM") {
+        if (messageIn.intern() == "NUMREQ") {
           messageOut = Integer.toString(numMessages);
-        } else if (messageIn == "UPTIME") {
-          messageOut = Long.toString((System.currentTimeMillis() - initialTime) / 60);
+        } else if (messageIn.intern() == "UPTIME") {
+          messageOut = Long.toString((System.currentTimeMillis() - initialTime) / 1000);
 
         }
-
-        // messageOut = "message" + numMessages + ": " + messageIn;
 
         outPacket = new DatagramPacket(messageOut.getBytes(), messageOut.length(), clientAddress, clientPort);
         datagramSocket.send(outPacket);

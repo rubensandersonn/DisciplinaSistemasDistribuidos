@@ -40,38 +40,37 @@ public class TCPClient {
 
         System.out.println("DIGITE O COMANDO :");
         System.out.println("UPTIME : tempo online do servidor TCP (em segundos)");
-        System.out.println("REQNUM : numero de requisicoes que o servidor recebeu");
-        System.out.println("***CLOSE*** : Encerrar a conexao");
+        System.out.println("NUMREQ : numero de requisicoes que o servidor recebeu");
+        System.out.println("CLOSE : Encerrar a conexao");
         System.out.println("enter message :");
         message = userEntry.nextLine();
 
-        if (!message.equals("***CLOSE***")) {
+        if (message.intern() == "NUMREQ") {
+          msgOutput.writeObject(message);
+          msgOutput.flush();
 
-          if (message.intern() == "REQNUM") {
-            msgOutput.writeObject(message);
-            msgOutput.flush();
+          String msgFromServer = (String) msgInput.readObject();
 
-            String msgFromServer = (String) msgInput.readObject();
+          System.out.println(" \n SERVER-->>" + msgFromServer);
+        } else if (message.intern() == "UPTIME") {
 
-            System.out.println(" \n SERVER-->>" + msgFromServer);
-          } else if (message.intern() == "UPTIME") {
+          msgOutput.writeObject(message);
+          msgOutput.flush();
 
-            msgOutput.writeObject(message);
-            msgOutput.flush();
+          String msgFromServer = (String) msgInput.readObject();
+          System.out.println(" \n SERVER-->>" + msgFromServer);
+        } else if (message.equals("CLOSE")) {
+          msgOutput.writeObject(message);
+          msgOutput.flush();
 
-            String msgFromServer = (String) msgInput.readObject();
-            System.out.println(" \n SERVER-->>" + msgFromServer);
-          } else {
-            System.out.println("COMANDO INVALIDO");
-          }
-
-        } else {
           userEntry.close();
           msgInput.close();
           msgOutput.close();
+        } else {
+          System.out.println("COMANDO INVALIDO");
         }
 
-      } while (!message.equals("***CLOSE***"));
+      } while (!message.equals("CLOSE"));
     } catch (Exception ioEx) {
       ioEx.printStackTrace();
     }

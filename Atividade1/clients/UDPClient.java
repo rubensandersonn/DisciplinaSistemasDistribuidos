@@ -38,15 +38,15 @@ public class UDPClient {
 
         System.out.println("DIGITE O COMANDO :");
         System.out.println("UPTIME : tempo online do servidor UDP (em segundos)");
-        System.out.println("REQNUM : numero de requisicoes que o servidor recebeu");
-        System.out.println("***CLOSE*** : Encerrar a conexao");
+        System.out.println("NUMREQ : numero de requisicoes que o servidor recebeu");
+        System.out.println("CLOSE : Encerrar a conexao");
         System.out.println("enter message :");
 
         message = userEntry.nextLine();
 
-        if (!message.equals("***CLOSE***")) {
+        if (!message.equals("CLOSE")) {
 
-          if (message.intern() == "REQNUM") {
+          if (message.intern() == "NUMREQ") {
             outPacket = new DatagramPacket(message.getBytes(), message.length(), host, PORT);
 
             datagramSocket.send(outPacket);
@@ -75,7 +75,7 @@ public class UDPClient {
           userEntry.close();
         }
 
-      } while (!message.equals("***CLOSE***"));
+      } while (!message.equals("CLOSE"));
     } catch (IOException ioEx) {
       ioEx.printStackTrace();
     }

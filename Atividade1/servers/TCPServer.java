@@ -52,16 +52,20 @@ public class TCPServer {
 
         numMessages++;
 
-        if (msgFromClient.intern() == "REQNUM") {
-          System.out.println("> REQNUM: " + numMessages);
+        if (msgFromClient.intern() == "NUMREQ") {
+          System.out.println("> NUMREQ: " + numMessages);
           messageOut = Integer.toString(numMessages);
         } else if (msgFromClient.intern() == "UPTIME") {
           messageOut = Long.toString((System.currentTimeMillis() - initialTime) / 1000);
         }
 
+        if (msgFromClient.intern() == "CLOSE") {
+
+          break;
+        }
+
         msgOutput.writeObject(messageOut);
         msgOutput.flush();
-
       } while (true);
     } catch (Exception ioEx) {
       ioEx.printStackTrace();
